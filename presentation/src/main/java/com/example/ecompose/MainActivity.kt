@@ -6,13 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -26,22 +23,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.example.domain.model.Product
 import com.example.ecompose.model.UiProductModel
-import com.example.ecompose.navigation.HomeScreen
 import com.example.ecompose.navigation.CartScreen
+import com.example.ecompose.navigation.HomeScreen
 import com.example.ecompose.navigation.ProductDetails
 import com.example.ecompose.navigation.ProfileScreen
 import com.example.ecompose.navigation.productNavType
+import com.example.ecompose.ui.feature.cart.CartScreen
 import com.example.ecompose.ui.feature.home.HomeScreen
 import com.example.ecompose.ui.feature.product_details.ProductDetailsScreen
 import com.example.ecompose.ui.theme.EComposeTheme
@@ -60,8 +55,9 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = {
-                        AnimatedVisibility(visible = showBottomNav.value, enter = fadeIn()) { }
-                        BottomNavigationBar(navController)
+                        AnimatedVisibility(visible = showBottomNav.value, enter = fadeIn()) {
+                            BottomNavigationBar(navController)
+                        }
                     }
                 ) {
                     Surface(
@@ -76,9 +72,7 @@ class MainActivity : ComponentActivity() {
                             }
                             composable<CartScreen> {
                                 showBottomNav.value = true
-                                Box(modifier = Modifier.fillMaxSize()) {
-                                    Text(text = "Cart")
-                                }
+                                CartScreen(navController)
                             }
                             composable<ProfileScreen> {
                                 showBottomNav.value = true
@@ -86,9 +80,9 @@ class MainActivity : ComponentActivity() {
                                     Text(text = "Profile")
                                 }
                             }
-                            composable<ProductDetails> (
+                            composable<ProductDetails>(
                                 typeMap = mapOf(typeOf<UiProductModel>() to productNavType)
-                            ){
+                            ) {
                                 showBottomNav.value = false
                                 val productRoute = it.toRoute<ProductDetails>()
                                 ProductDetailsScreen(navController, productRoute.product)
@@ -133,7 +127,8 @@ fun BottomNavigationBar(navController: NavController) {
                         contentDescription = null,
                         colorFilter = ColorFilter.tint(
                             if (isSelected) MaterialTheme.colorScheme.primary
-                            else Color.Gray)
+                            else Color.Gray
+                        )
                     )
                 }, colors = NavigationBarItemDefaults.colors().copy(
                     selectedIconColor = MaterialTheme.colorScheme.primary,

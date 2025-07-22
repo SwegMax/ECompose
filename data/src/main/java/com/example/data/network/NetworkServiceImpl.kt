@@ -1,12 +1,14 @@
 package com.example.data.network
 
-import com.example.data.model.CategoryDataModel
-import com.example.data.model.DataProductModel
+import com.example.data.model.request.AddToCartRequest
+import com.example.data.model.response.CartResponse
 import com.example.data.model.response.CategoriesListResponse
 import com.example.data.model.response.ProductListResponse
+import com.example.domain.model.CartItemModel
+import com.example.domain.model.CartModel
 import com.example.domain.model.CategoriesListModel
-import com.example.domain.model.Product
 import com.example.domain.model.ProductListModel
+import com.example.domain.model.request.AddCartRequestModel
 import com.example.domain.network.NetworkService
 import com.example.domain.network.ResultWrapper
 import io.ktor.client.HttpClient
@@ -15,6 +17,7 @@ import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.ServerResponseException
 import io.ktor.client.request.header
 import io.ktor.client.request.request
+import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
 import io.ktor.http.Parameters
@@ -51,7 +54,25 @@ class NetworkServiceImpl(val client: HttpClient) : NetworkService {
         )
     }
 
-    @OptIn(InternalAPI::class)
+    override suspend fun addProductToCart(request: AddCartRequestModel): ResultWrapper<CartModel> {
+        val url = "$baseUrl/cart/1"
+        return makeWebRequest(url = url,
+            method = HttpMethod.Post,
+            body = AddToCartRequest.fromCartRequestModel(request),
+            mapper = { cartItem: CartResponse ->
+                cartItem.toCartModel()
+            })
+    }
+
+    override suspend fun getCart(): ResultWrapper<CartModel> {
+        val url = "$baseUrl/cart/1"
+        return makeWebRequest(url = url,
+            method = HttpMethod.Get,
+            mapper = { cartItem: CartResponse ->
+                cartItem.toCartModel()
+            })
+    }
+
     suspend inline fun <reified T, R> makeWebRequest(
         url: String,
         method: HttpMethod,
@@ -77,7 +98,7 @@ class NetworkServiceImpl(val client: HttpClient) : NetworkService {
                 }
 
                 if (body != null) {
-                    this.body = body
+                    setBody(body)
                 }
 
                 contentType(ContentType.Application.Json)
