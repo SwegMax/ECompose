@@ -1,6 +1,7 @@
 package com.example.ecompose.navigation
 
 import com.example.ecompose.model.UiProductModel
+import com.example.ecompose.model.UserAddress
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -17,3 +18,6 @@ object CartSummaryScreen
 
 @Serializable
 data class ProductDetails(val product: UiProductModel)
+
+@Serializable
+data class UserAddressRoute(val userAddressWrapper: UserAddressRouteWrapper)

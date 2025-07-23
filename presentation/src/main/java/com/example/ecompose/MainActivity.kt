@@ -36,11 +36,15 @@ import com.example.ecompose.navigation.CartSummaryScreen
 import com.example.ecompose.navigation.HomeScreen
 import com.example.ecompose.navigation.ProductDetails
 import com.example.ecompose.navigation.ProfileScreen
-import com.example.ecompose.navigation.productNavType
+import com.example.ecompose.navigation.ProductNavType
+import com.example.ecompose.navigation.UserAddressRoute
+import com.example.ecompose.navigation.UserAddressRouteWrapper
+import com.example.ecompose.navigation.userAddressNavType
 import com.example.ecompose.ui.feature.cart.CartScreen
 import com.example.ecompose.ui.feature.home.HomeScreen
 import com.example.ecompose.ui.feature.product_details.ProductDetailsScreen
 import com.example.ecompose.ui.feature.summary.CartSummaryScreen
+import com.example.ecompose.ui.feature.user_address.UserAddressScreen
 import com.example.ecompose.ui.theme.EComposeTheme
 import kotlin.reflect.typeOf
 
@@ -82,16 +86,26 @@ class MainActivity : ComponentActivity() {
                                     Text(text = "Profile")
                                 }
                             }
-                            composable<CartSummaryScreen>{
+                            composable<CartSummaryScreen> {
                                 showBottomNav.value = false
                                 CartSummaryScreen(navController = navController)
                             }
                             composable<ProductDetails>(
-                                typeMap = mapOf(typeOf<UiProductModel>() to productNavType)
+                                typeMap = mapOf(typeOf<UiProductModel>() to ProductNavType)
                             ) {
                                 showBottomNav.value = false
                                 val productRoute = it.toRoute<ProductDetails>()
                                 ProductDetailsScreen(navController, productRoute.product)
+                            }
+                            composable<UserAddressRoute>(
+                                typeMap = mapOf(typeOf<UserAddressRouteWrapper>() to userAddressNavType)
+                            ) {
+                                showBottomNav.value = false
+                                val userAddressRoute = it.toRoute<UserAddressRoute>()
+                                UserAddressScreen(
+                                    navController = navController,
+                                    userAddress = userAddressRoute.userAddressWrapper.userAddress
+                                )
                             }
                         }
                     }
