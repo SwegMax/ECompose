@@ -43,6 +43,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.domain.model.CartItemModel
 import com.example.ecompose.R
+import com.example.ecompose.navigation.CartSummaryScreen
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
 
@@ -117,12 +118,19 @@ fun CartScreen(navController: NavController, viewModel: CartViewModel = koinView
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         items(cartItems.value) { item ->
-                            CartItem(item = item)
+                            CartItem(item = item,
+                                onIncrement = { viewModel.incrementQuantity(it) },
+                                onDecrement = { viewModel.decrementQuantity(it) },
+                                onRemove = { viewModel.removeItem(it) }
+                            )
                         }
                     }
                 }
                 if (shouldShowList) {
-                    Button(onClick = {}, modifier = Modifier.fillMaxWidth()) {
+                    Button(
+                        onClick = { navController.navigate(CartSummaryScreen) },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
                         Text(text = "Checkout")
                     }
                 }
@@ -144,7 +152,12 @@ fun CartScreen(navController: NavController, viewModel: CartViewModel = koinView
 }
 
 @Composable
-fun CartItem(item: CartItemModel) {
+fun CartItem(
+    item: CartItemModel,
+    onIncrement: (CartItemModel) -> Unit,
+    onDecrement: (CartItemModel) -> Unit,
+    onRemove: (CartItemModel) -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -176,7 +189,7 @@ fun CartItem(item: CartItemModel) {
             )
         }
         Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.End) {
-            IconButton(onClick = { }) {
+            IconButton(onClick = { onRemove(item) }) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_delete),
                     contentDescription = null
@@ -184,14 +197,14 @@ fun CartItem(item: CartItemModel) {
             }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                IconButton(onClick = { }) {
+                IconButton(onClick = { onIncrement(item) }) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_add),
                         contentDescription = null
                     )
                 }
                 Text(text = item.quantity.toString())
-                IconButton(onClick = { }) {
+                IconButton(onClick = { onDecrement(item) }) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_minus),
                         contentDescription = null

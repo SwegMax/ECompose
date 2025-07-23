@@ -32,6 +32,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.ecompose.model.UiProductModel
 import com.example.ecompose.navigation.CartScreen
+import com.example.ecompose.navigation.CartSummaryScreen
 import com.example.ecompose.navigation.HomeScreen
 import com.example.ecompose.navigation.ProductDetails
 import com.example.ecompose.navigation.ProfileScreen
@@ -39,6 +40,7 @@ import com.example.ecompose.navigation.productNavType
 import com.example.ecompose.ui.feature.cart.CartScreen
 import com.example.ecompose.ui.feature.home.HomeScreen
 import com.example.ecompose.ui.feature.product_details.ProductDetailsScreen
+import com.example.ecompose.ui.feature.summary.CartSummaryScreen
 import com.example.ecompose.ui.theme.EComposeTheme
 import kotlin.reflect.typeOf
 
@@ -79,6 +81,10 @@ class MainActivity : ComponentActivity() {
                                 Box(modifier = Modifier.fillMaxSize()) {
                                     Text(text = "Profile")
                                 }
+                            }
+                            composable<CartSummaryScreen>{
+                                showBottomNav.value = false
+                                CartSummaryScreen(navController = navController)
                             }
                             composable<ProductDetails>(
                                 typeMap = mapOf(typeOf<UiProductModel>() to productNavType)
