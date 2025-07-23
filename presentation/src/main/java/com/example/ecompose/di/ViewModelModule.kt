@@ -18,6 +18,6 @@ val viewModelModule = module {
         CartViewModel(get(), get(), get())
     }
     viewModel {
-        CartSummaryViewModel(get())
+        CartSummaryViewModel(get(), get())
     }
 }

@@ -39,6 +39,7 @@ import com.example.domain.model.CartItemModel
 import com.example.domain.model.CartSummary
 import com.example.ecompose.R
 import com.example.ecompose.model.UserAddress
+import com.example.ecompose.navigation.HomeScreen
 import com.example.ecompose.navigation.UserAddressRoute
 import com.example.ecompose.navigation.UserAddressRouteWrapper
 import com.example.ecompose.ui.feature.user_address.USER_ADDRESS_SCREEN
@@ -70,7 +71,7 @@ fun CartSummaryScreen(
         }
         val uiState = viewModel.uiState.collectAsState()
 
-        LaunchedEffect (navController) {
+        LaunchedEffect(navController) {
             val savedState = navController.currentBackStackEntry?.savedStateHandle
             savedState?.getStateFlow(USER_ADDRESS_SCREEN, address.value)?.collect { userAddress ->
                 address.value = userAddress
@@ -104,17 +105,49 @@ fun CartSummaryScreen(
 
                 is CartSummaryEvent.Success -> {
                     Column {
-                        AddressBar(address.value?.toString() ?: "" , onClick = {
-                            navController.navigate( UserAddressRoute(UserAddressRouteWrapper(address.value)))
-                        } )
+                        AddressBar(address.value?.toString() ?: "", onClick = {
+                            navController.navigate(UserAddressRoute(UserAddressRouteWrapper(address.value)))
+                        })
                         Spacer(modifier = Modifier.size(8.dp))
                         CartSummaryScreenContent(event.summary)
                     }
                 }
+
+                is CartSummaryEvent.PlaceOrder -> {
+                    Column (modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally){
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_success),
+                            contentDescription = null,
+                        )
+                        Text(
+                            text = "Order Placed: ${event.orderId}",
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                        Button(onClick = {
+                            navController.popBackStack(
+                                HomeScreen,
+                                inclusive = false
+                            )
+                        }) {
+                            Text(
+                                text = "Continue Shopping",
+                                style = MaterialTheme.typography.titleSmall
+                            )
+                        }
+                    }
+                }
             }
         }
-        Button(onClick = {}, modifier = Modifier.fillMaxWidth()) {
-            Text(text = "Checkout", style = MaterialTheme.typography.titleMedium)
+        if (uiState.value !is CartSummaryEvent.PlaceOrder) {
+            Button(
+                onClick = { viewModel.placeOrder(address.value!!) },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = address.value != null
+            ) {
+                Text(text = "Checkout", style = MaterialTheme.typography.titleMedium)
+            }
         }
     }
 }
@@ -194,7 +227,7 @@ fun AmountRow(title: String, amount: Double) {
 }
 
 @Composable
-fun AddressBar( address:String, onClick:() -> Unit) {
+fun AddressBar(address: String, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()

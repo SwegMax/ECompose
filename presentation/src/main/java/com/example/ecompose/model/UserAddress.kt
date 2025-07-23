@@ -1,6 +1,7 @@
 package com.example.ecompose.model
 
 import android.os.Parcelable
+import com.example.domain.model.AddressDomainModel
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
@@ -16,4 +17,12 @@ data class UserAddress(
     override fun toString(): String {
         return "$addressLine, $city, $state, $postalCode, $country"
     }
+
+    fun toAddressDomainModel() = AddressDomainModel(
+        addressLine,
+        city,
+        state,
+        postalCode,
+        country
+    )
 }
