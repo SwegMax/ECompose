@@ -34,14 +34,16 @@ import com.example.ecompose.model.UiProductModel
 import com.example.ecompose.navigation.CartScreen
 import com.example.ecompose.navigation.CartSummaryScreen
 import com.example.ecompose.navigation.HomeScreen
+import com.example.ecompose.navigation.OrdersScreen
 import com.example.ecompose.navigation.ProductDetails
-import com.example.ecompose.navigation.ProfileScreen
 import com.example.ecompose.navigation.ProductNavType
+import com.example.ecompose.navigation.ProfileScreen
 import com.example.ecompose.navigation.UserAddressRoute
 import com.example.ecompose.navigation.UserAddressRouteWrapper
 import com.example.ecompose.navigation.userAddressNavType
 import com.example.ecompose.ui.feature.cart.CartScreen
 import com.example.ecompose.ui.feature.home.HomeScreen
+import com.example.ecompose.ui.feature.orders.OrdersScreen
 import com.example.ecompose.ui.feature.product_details.ProductDetailsScreen
 import com.example.ecompose.ui.feature.summary.CartSummaryScreen
 import com.example.ecompose.ui.feature.user_address.UserAddressScreen
@@ -79,6 +81,10 @@ class MainActivity : ComponentActivity() {
                             composable<CartScreen> {
                                 showBottomNav.value = true
                                 CartScreen(navController)
+                            }
+                            composable<OrdersScreen> {
+                                showBottomNav.value = true
+                                OrdersScreen()
                             }
                             composable<ProfileScreen> {
                                 showBottomNav.value = true
@@ -121,7 +127,7 @@ fun BottomNavigationBar(navController: NavController) {
         val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
         val items = listOf(
             BottomNavItems.Home,
-            BottomNavItems.Cart,
+            BottomNavItems.Orders,
             BottomNavItems.Profile
         )
 
@@ -163,6 +169,6 @@ fun BottomNavigationBar(navController: NavController) {
 
 sealed class BottomNavItems(val route: Any, val title: String, val icon: Int) {
     object Home : BottomNavItems(HomeScreen, "Home", icon = R.drawable.ic_home)
-    object Cart : BottomNavItems(CartScreen, "Cart", icon = R.drawable.ic_cart)
+    object Orders : BottomNavItems(OrdersScreen, "Orders", icon = R.drawable.ic_orders)
     object Profile : BottomNavItems(ProfileScreen, "Profile", icon = R.drawable.ic_profile_bn)
 }

@@ -2,6 +2,7 @@ package com.example.ecompose.di
 
 import com.example.ecompose.ui.feature.cart.CartViewModel
 import com.example.ecompose.ui.feature.home.HomeViewModel
+import com.example.ecompose.ui.feature.orders.OrdersViewModel
 import com.example.ecompose.ui.feature.product_details.ProductDetailsViewModel
 import com.example.ecompose.ui.feature.summary.CartSummaryViewModel
 import org.koin.core.module.dsl.viewModel
@@ -19,5 +20,8 @@ val viewModelModule = module {
     }
     viewModel {
         CartSummaryViewModel(get(), get())
+    }
+    viewModel {
+        OrdersViewModel(get())
     }
 }
