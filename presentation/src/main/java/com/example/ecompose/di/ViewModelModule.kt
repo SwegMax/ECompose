@@ -1,5 +1,7 @@
 package com.example.ecompose.di
 
+import com.example.ecompose.ui.feature.account.login.LoginViewModel
+import com.example.ecompose.ui.feature.account.register.RegisterViewModel
 import com.example.ecompose.ui.feature.cart.CartViewModel
 import com.example.ecompose.ui.feature.home.HomeViewModel
 import com.example.ecompose.ui.feature.orders.OrdersViewModel
@@ -24,4 +26,11 @@ val viewModelModule = module {
     viewModel {
         OrdersViewModel(get())
     }
+    viewModel {
+        LoginViewModel(get())
+    }
+    viewModel {
+        RegisterViewModel(get())
+    }
+
 }

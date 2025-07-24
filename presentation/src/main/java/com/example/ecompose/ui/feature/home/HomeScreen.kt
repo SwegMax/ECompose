@@ -50,6 +50,7 @@ import coil.compose.AsyncImage
 import com.example.domain.model.Product
 import com.example.ecompose.R
 import com.example.ecompose.model.UiProductModel
+import com.example.ecompose.navigation.CartScreen
 import com.example.ecompose.navigation.ProductDetails
 import org.koin.androidx.compose.koinViewModel
 
@@ -113,6 +114,9 @@ fun HomeScreen(
                 error.value,
                 onClick = {
                     navController.navigate(ProductDetails(UiProductModel.fromProduct(it)))
+                },
+                onCartClicked = {
+                    navController.navigate(CartScreen)
                 }
             )
         }
@@ -126,11 +130,12 @@ fun HomeContent(
     categories: List<String>,
     isLoading: Boolean = false,
     errorMsg: String? = null,
-    onClick:(Product) -> Unit
+    onClick: (Product) -> Unit,
+    onCartClicked: () -> Unit
 ) {
     LazyColumn {
         item {
-            ProfileHeader()
+            ProfileHeader(onCartClicked)
             Spacer(modifier = Modifier.size(16.dp))
             SearchBar(value = "", onTextChanged = {})
             Spacer(modifier = Modifier.size(16.dp))
@@ -189,7 +194,11 @@ fun HomeContent(
         }
         item {
             if (popularProducts.isNotEmpty()) {
-                HomeProductRow(products = popularProducts, title = "Popular Products", onClick = onClick)
+                HomeProductRow(
+                    products = popularProducts,
+                    title = "Popular Products",
+                    onClick = onClick
+                )
             }
         }
 
@@ -197,7 +206,7 @@ fun HomeContent(
 }
 
 @Composable
-fun ProfileHeader() {
+fun ProfileHeader(onCartClicked: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -224,17 +233,34 @@ fun ProfileHeader() {
                 )
             }
         }
-        Image(
-            painter = painterResource(id = R.drawable.notification),
-            contentDescription = null,
+        Row(
             modifier = Modifier
-                .size(48.dp)
                 .align(Alignment.CenterEnd)
-                .clip(CircleShape)
-                .background(Color.LightGray.copy(alpha = 0.3f))
-                .padding(8.dp),
-            contentScale = ContentScale.Inside
-        )
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.notification),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(CircleShape)
+                    .background(Color.LightGray.copy(alpha = 0.3f))
+                    .padding(8.dp),
+                contentScale = ContentScale.Inside
+            )
+            Image(
+                painter = painterResource(id = R.drawable.ic_cart),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(CircleShape)
+                    .background(Color.LightGray.copy(alpha = 0.3f))
+                    .padding(8.dp)
+                    .clickable{
+                        onCartClicked()
+                    },
+                contentScale = ContentScale.Inside
+            )
+        }
     }
 }
 
@@ -267,7 +293,7 @@ fun SearchBar(value: String, onTextChanged: (String) -> Unit) {
 }
 
 @Composable
-fun HomeProductRow(products: List<Product>, title: String, onClick:(Product) -> Unit) {
+fun HomeProductRow(products: List<Product>, title: String, onClick: (Product) -> Unit) {
     Column {
         Box(
             modifier = Modifier
@@ -307,7 +333,7 @@ fun HomeProductRow(products: List<Product>, title: String, onClick:(Product) -> 
 }
 
 @Composable
-fun ProductItem(product: Product, onClick:(Product) -> Unit) {
+fun ProductItem(product: Product, onClick: (Product) -> Unit) {
     Card(
         modifier = Modifier
             .padding(horizontal = 8.dp)

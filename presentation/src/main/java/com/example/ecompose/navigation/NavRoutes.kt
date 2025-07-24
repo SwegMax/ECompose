@@ -1,8 +1,13 @@
 package com.example.ecompose.navigation
 
 import com.example.ecompose.model.UiProductModel
-import com.example.ecompose.model.UserAddress
 import kotlinx.serialization.Serializable
+
+@Serializable
+object LoginScreen
+
+@Serializable
+object RegisterScreen
 
 @Serializable
 object HomeScreen
