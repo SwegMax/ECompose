@@ -9,7 +9,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 class RegisterViewModel(
-    private val registerUseCase: RegisterUseCase
+    private val registerUseCase: RegisterUseCase,
+    private val shopperSession: ShopperSession
 ) : ViewModel() {
 
     private val _registerState = MutableStateFlow<RegisterState>(RegisterState.Idle)
@@ -20,9 +21,10 @@ class RegisterViewModel(
         viewModelScope.launch {
             when (val response = registerUseCase.execute(email, password, name)) {
                 is ResultWrapper.Success -> {
-                    ShopperSession.storeUser(response.value)
+                    shopperSession.storeUser(response.value)
                     _registerState.value = RegisterState.Success()
                 }
+
                 is ResultWrapper.Failure -> {
                     _registerState.value = RegisterState.Error(
                         response.exception.message

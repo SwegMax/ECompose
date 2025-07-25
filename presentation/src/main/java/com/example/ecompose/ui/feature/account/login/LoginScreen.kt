@@ -18,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -52,7 +53,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel = koinVi
             }
 
             is LoginState.Error -> {
-                Text(text = state.message)
+                Text(text = state.message, modifier = Modifier.testTag("errorMsg"))
             }
 
             is LoginState.Loading -> {
@@ -96,7 +97,8 @@ fun LoginContent(onSignInClicked: (String, String) -> Unit, onRegisterClick: () 
             },
             modifier = Modifier
                 .padding(vertical = 4.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .testTag("emailField"),
             label = { Text(text = stringResource(id = R.string.email)) })
 
         OutlinedTextField(
@@ -106,7 +108,8 @@ fun LoginContent(onSignInClicked: (String, String) -> Unit, onRegisterClick: () 
             },
             modifier = Modifier
                 .padding(vertical = 8.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .testTag("passwordField"),
             label = { Text(text = stringResource(id = R.string.password)) },
             visualTransformation = PasswordVisualTransformation()
         )
@@ -115,7 +118,8 @@ fun LoginContent(onSignInClicked: (String, String) -> Unit, onRegisterClick: () 
             onClick = {
                 onSignInClicked(email.value, password.value)
             },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth()
+                .testTag("loginButton"),
             enabled = email.value.isNotEmpty() && password.value.isNotEmpty()
         ) {
             Text(text = "Login")

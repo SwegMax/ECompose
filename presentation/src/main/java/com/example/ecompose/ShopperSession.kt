@@ -2,12 +2,8 @@ package com.example.ecompose
 
 import android.content.Context
 import com.example.domain.model.UserDomainModel
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-object ShopperSession : KoinComponent {
-
-    val context: Context by inject()
+class ShopperSession(private val context: Context) {
 
     fun storeUser (user: UserDomainModel){
         val sharedPref = context.getSharedPreferences("user", Context.MODE_PRIVATE)

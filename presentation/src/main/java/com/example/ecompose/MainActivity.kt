@@ -52,6 +52,7 @@ import com.example.ecompose.ui.feature.product_details.ProductDetailsScreen
 import com.example.ecompose.ui.feature.summary.CartSummaryScreen
 import com.example.ecompose.ui.feature.user_address.UserAddressScreen
 import com.example.ecompose.ui.theme.EComposeTheme
+import org.koin.android.ext.android.inject
 import kotlin.reflect.typeOf
 
 class MainActivity : ComponentActivity() {
@@ -60,6 +61,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             EComposeTheme {
+                val shopperSession : ShopperSession by inject()
                 val showBottomNav = remember {
                     mutableStateOf(true)
                 }
@@ -79,7 +81,7 @@ class MainActivity : ComponentActivity() {
                     ) {
                         NavHost(
                             navController = navController,
-                            startDestination = if (ShopperSession.getUser() != null) {
+                            startDestination = if (shopperSession.getUser() != null) {
                                 HomeScreen
                             } else {
                                 LoginScreen
