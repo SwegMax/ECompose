@@ -18,10 +18,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.ecompose.R
 import com.example.ecompose.navigation.HomeScreen
 import com.example.ecompose.navigation.RegisterScreen
 import org.koin.androidx.compose.koinViewModel
@@ -55,7 +57,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel = koinVi
 
             is LoginState.Loading -> {
                 CircularProgressIndicator()
-                Text(text = "Loading...")
+                Text(text = stringResource(id = R.string.loading))
             }
 
             else -> {
@@ -95,7 +97,7 @@ fun LoginContent(onSignInClicked: (String, String) -> Unit, onRegisterClick: () 
             modifier = Modifier
                 .padding(vertical = 4.dp)
                 .fillMaxWidth(),
-            label = { Text(text = "Email") })
+            label = { Text(text = stringResource(id = R.string.email)) })
 
         OutlinedTextField(
             value = password.value,
@@ -105,7 +107,7 @@ fun LoginContent(onSignInClicked: (String, String) -> Unit, onRegisterClick: () 
             modifier = Modifier
                 .padding(vertical = 8.dp)
                 .fillMaxWidth(),
-            label = { Text(text = "Password") },
+            label = { Text(text = stringResource(id = R.string.password)) },
             visualTransformation = PasswordVisualTransformation()
         )
 
@@ -119,17 +121,11 @@ fun LoginContent(onSignInClicked: (String, String) -> Unit, onRegisterClick: () 
             Text(text = "Login")
         }
         Text(
-            text = "Don't have an account? Register here",
+            text = stringResource(id = R.string.dont_have_account),
             modifier = Modifier
                 .padding(8.dp)
                 .clickable {
                     onRegisterClick()
                 })
     }
-}
-
-@Composable
-@Preview(showBackground = true)
-fun PreviewLoginScreen() {
-    LoginContent(onSignInClicked = { email, password -> }, onRegisterClick = {})
 }

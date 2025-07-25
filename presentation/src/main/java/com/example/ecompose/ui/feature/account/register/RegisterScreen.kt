@@ -99,7 +99,7 @@ fun RegisterContent(
             modifier = Modifier
                 .padding(vertical = 4.dp)
                 .fillMaxWidth(),
-            label = { Text(text = "Email") })
+            label = { Text(text = stringResource(id = R.string.name)) })
         OutlinedTextField(value = email.value,
             onValueChange = {
                 email.value = it
@@ -107,7 +107,7 @@ fun RegisterContent(
             modifier = Modifier
                 .padding(vertical = 4.dp)
                 .fillMaxWidth(),
-            label = { Text(text = "Email") })
+            label = { Text(text = stringResource(id = R.string.email)) })
         OutlinedTextField(
             value = password.value,
             onValueChange = {
@@ -116,7 +116,7 @@ fun RegisterContent(
             modifier = Modifier
                 .padding(vertical = 8.dp)
                 .fillMaxWidth(),
-            label = { Text(text = "Email") },
+            label = { Text(text = stringResource(id = R.string.password)) },
             visualTransformation = PasswordVisualTransformation()
         )
         Button(
@@ -126,10 +126,10 @@ fun RegisterContent(
             modifier = Modifier.fillMaxWidth(),
             enabled = email.value.isNotEmpty() && password.value.isNotEmpty() && name.value.isNotEmpty()
         ) {
-            Text(text = "Register")
+            Text(text = stringResource(id = R.string.register))
         }
         Text(
-            text = "Don't have an account? Register here",
+            text = stringResource(id = R.string.already_have_account),
             modifier = Modifier
                 .padding(8.dp)
                 .clickable {
