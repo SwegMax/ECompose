@@ -1,6 +1,6 @@
 # ECompose - An eCommerce app
 
-An e-Commerce app built with modern frameworks and focuses on demonstrating good OOP fundamentals
+An e-Commerce app built with modern frameworks and focuses on demonstrating good fundamentals
 
 ---
 
