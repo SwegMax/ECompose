@@ -36,7 +36,7 @@ fun OrdersScreen(viewModel: OrdersViewModel = koinViewModel()) {
                 .padding(16.dp)
         ) {
             Text(
-                text = "John Doe",
+                text = "Jervis Ho",
                 modifier = Modifier.align(Alignment.Center),
                 style = MaterialTheme.typography.titleMedium,
             )

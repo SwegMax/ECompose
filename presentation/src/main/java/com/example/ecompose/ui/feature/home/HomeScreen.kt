@@ -229,7 +229,7 @@ fun ProfileHeader(onCartClicked: () -> Unit) {
                     text = "Welcome Back,", style = MaterialTheme.typography.bodySmall
                 )
                 Text(
-                    text = "John Doe",
+                    text = "Jervis Ho",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold
                 )
