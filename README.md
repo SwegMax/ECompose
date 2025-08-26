@@ -11,7 +11,7 @@ An e-Commerce app built with modern frameworks and focuses on demonstrating good
 - Ktor for HTTP calls
 - Coil for Image Loading
 - Both Unit and Automated tests included (JUnit/Espresso/Mockito for mock data)
-- MVI architechure
+- MVVM architechure
 
 ---
 
